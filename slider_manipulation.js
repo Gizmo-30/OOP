@@ -1,82 +1,83 @@
 class SliderMn {
     constructor(obj) {
-        slider = document.querySelector(obj.slider),
-        track = slider.querySelector(obj.track),
-        items = [...slider.querySelectorAll(obj.items)],
-        btnPrev = document.querySelector(obj.btnPrev),
-        btnNext = document.querySelector(obj.btnNext);
+        this.slider = document.querySelector(obj.slider),
+            this.track = this.slider.querySelector(obj.track),
+            this.items = [...this.slider.querySelectorAll(obj.items)],
+            this.btnPrev = document.querySelector(obj.btnPrev),
+            this.btnNext = document.querySelector(obj.btnNext);
+
 
         if (window.innerWidth <= obj.media_1) {
-            track.setAttribute('data-slidesToShow',obj.data_1)
+            this.track.setAttribute('data-slidesToShow', obj.data_1)
         } if (window.innerWidth <= obj.media_2) {
-            track.setAttribute('data-slidesToShow',obj.data_2)
+            this.track.setAttribute('data-slidesToShow', obj.data_2)
         } if (window.innerWidth <= obj.media_3) {
-            track.setAttribute('data-slidesToShow',obj.data_3)
+            this.track.setAttribute('data-slidesToShow', obj.data_3)
         }
-        position = 0
-        slidesToShow = window.innerWidth >= media1 ? obj.slidesToShow : track.getAttribute('data-slidesToShow')
-        slidesToScroll = obj.slidesToScroll 
-        itemsCount = items.length
-        gap = obj.gap
+        this.position = 0
+        this.slidesToShow = window.innerWidth >= obj.media_1 ? obj.slidesToShow : this.track.getAttribute('data-slidesToShow')
+        this.slidesToScroll = this.slidesToShow
+        this.itemsCount = this.items.length
+        this.gap = obj.gap
 
-        itemWidth = Math.ceil((slider.clientWidth - gap * (slidesToShow - 1)) / slidesToShow);
-        movePosition = (slidesToScroll * itemWidth) + (slidesToScroll * gap);
+        this.itemWidth = Math.ceil((this.slider.clientWidth - this.gap * (this.slidesToShow - 1)) / this.slidesToShow);
+        console.log(this.itemWidth);
+        this.movePosition = (this.slidesToScroll * this.itemWidth) + (this.slidesToScroll * this.gap);
 
-        items.forEach(element => {
-            element.style = `min-width: ${itemWidth}px;`
+        this.items.forEach(element => {
+            element.style = `min-width: ${this.itemWidth}px;`
         });
 
-        checkBtn()
+        this.checkBtn()
 
-        btnPrev.addEventListener('click', () => {
-            itemsLeft = Math.floor(Math.abs(position) / itemWidth)
-            position += itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth + itemsLeft * gap
-            setPosition()
+        this.btnPrev.addEventListener('click', () => {
+            this.itemsLeft = Math.floor(Math.abs(this.position) / this.itemWidth)
+            this.position += this.itemsLeft >= this.slidesToScroll ? this.movePosition : this.itemsLeft * this.itemWidth + this.itemsLeft * this.gap
+            this.setPosition()
         })
 
-        btnNext.addEventListener('click', () => {
-            itemsLeft = itemsCount - Math.floor((Math.abs(position) + slidesToShow * itemWidth - slidesToShow * gap) / itemWidth);
-            position -= itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth + itemsLeft * gap
-            setPosition()
+        this.btnNext.addEventListener('click', () => {
+            this.itemsLeft = this.itemsCount - Math.floor((Math.abs(this.position) + this.slidesToShow * this.itemWidth - this.slidesToShow * this.gap) / this.itemWidth);
+            this.position -= this.itemsLeft >= this.slidesToScroll ? this.movePosition : this.itemsLeft * this.itemWidth + this.itemsLeft * this.gap
+            this.setPosition()
         })
     }
 
     setPosition() {
-        track.style = `transform: translateX(${position}px)`
-        checkBtn()
+        this.track.style = `transform: translateX(${this.position}px)`
+        this.checkBtn()
     }
 
     checkBtn() {
-        btnPrev.disabled = position === 0
-        btnNext.disabled = position <= - (itemsCount - slidesToShow) * itemWidth
+        this.btnPrev.disabled = this.position === 0
+        this.btnNext.disabled = this.position <= - (this.itemsCount - this.slidesToShow) * this.itemWidth
 
-        if (position === 0) {
-            btnPrev.classList.remove('active')
+        if (this.position === 0) {
+            this.btnPrev.classList.remove('active')
         } else {
-            btnPrev.classList.add('active')
+            this.btnPrev.classList.add('active')
         }
 
-        if (position <= - (itemsCount - slidesToShow) * itemWidth) {
-            btnNext.classList.remove('active')
+        if (this.position <= - (this.itemsCount - this.slidesToShow) * this.itemWidth) {
+            this.btnNext.classList.remove('active')
         } else {
-            btnNext.classList.add('active')
+            this.btnNext.classList.add('active')
         }
     }
 }
 
-const section_3Slide = new SliderMn({
-    slider: '.popularItem__slider',
-    track: '.popularItem__line',
-    items: '.slider__item',
-    btnPrev: '.popularItem__button-prev',
-    btnNext: '.popularItem__button-next',
-    slidesToScroll: 1,
+const section_4Slide = new SliderMn({
+    slider: '.section-4__slider',
+    track: '.section-4__sliderTrack',
+    items: '.slider-4__item',
+    btnPrev: '.section-4__btn-prev',
+    btnNext: '.section-4__btn-next',
     slidesToShow: 4,
-    media_1: 850,
+    media_1: 1100,
     data_1: 3,
-    media_2: 600,
+    media_2: 800,
     data_2: 2,
-    media_3: 450,
+    media_3: 550,
     data_3: 1,
     gap: 32,
 })
